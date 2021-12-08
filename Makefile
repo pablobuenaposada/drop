@@ -11,5 +11,4 @@ format/black: venv
 format: venv format/isort format/black
 
 tests: venv
-	venv/bin/pip install -r requirements-tests.txt
 	PYTHONPATH=src venv/bin/pytest src/tests

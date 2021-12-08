@@ -38,21 +38,25 @@ class Proposals:
         self.customers.sort(key=lambda x: len(x.preferences), reverse=False)
 
     def resolve(self):
+        # initialize all the curries to None
         result = {}
-        for x in range(1, self.num_types + 1):
-            result[x] = None
+        for curry_type in range(1, self.num_types + 1):
+            result[curry_type] = None
 
         for customer in self.customers:
-            found = False
+            proposed = False
+            # try to please one customer preference
             for preference in customer.preferences:
+                # if nobody proposed selected curry, we do
                 if result[preference.type] is None:
                     result[preference.type] = preference.base
-                    found = True
+                    proposed = True
                     break
+                # if the base of the curry is already the one we want
                 elif result[preference.type] == preference.base:
-                    found = True
+                    proposed = True
                     break
-            if not found:
+            if not proposed:  # for this costumer no preference could not be pleased
                 return NO_SOLUTION
-        result = {k: (VEGETARIAN if v is None else v) for k, v in result.items()}
-        return result
+        # if there's any curry that nobody proposed for it, then set it to default (vegetarian)
+        return {k: (VEGETARIAN if v is None else v) for k, v in result.items()}

@@ -163,10 +163,11 @@ class TestProposals:
 
     def test_random_resolve(self):
         """
-        Ideally you don't want these type of tests but due the brainteaser that it is this problem doesn't hurt
+        Creates random orders scenarios and checks if the solution works for each customer.
+        Ideally you don't want these type of tests but due the brainteaser that this problem is, doesn't hurt
         to create quite some random cases and check that they pass green.
         """
-        NUM_CUSTOMERS = 30
+        NUM_CUSTOMERS = 50
         NUM_TYPES = 5
         NUM_TESTS_WITH_SOLUTION = 1000
 
@@ -174,22 +175,32 @@ class TestProposals:
         while results_with_solution < NUM_TESTS_WITH_SOLUTION:
             customers = []
             for _ in range(NUM_CUSTOMERS):
-                types = [VEGETARIAN for _ in range(1, NUM_TYPES)] + [MEAT]
-                ids = [id for id in range(1, NUM_TYPES + 1)]
+                # create random preferences
+                bases = [VEGETARIAN for _ in range(NUM_TYPES - 1)] + [MEAT]
+                types = [type for type in range(1, NUM_TYPES + 1)]
+                random.shuffle(bases)
                 random.shuffle(types)
-                random.shuffle(ids)
 
-                list_of_curry = []
+                # the number of preferences per customer is also random
                 num_preferences = random.randint(1, NUM_TYPES)
-                for x in range(0, num_preferences):
-                    list_of_curry.append(Curry(type=ids[x], base=types[ids[x] - 1]))
-                customers.append(Customer(list_of_curry))
+                list_of_curries = []
+                for pref_index in range(0, num_preferences):
+                    list_of_curries.append(
+                        Curry(type=types[pref_index], base=bases[types[pref_index] - 1])
+                    )
+
+                customers.append(Customer(list_of_curries))
 
             result = Proposals(NUM_TYPES, customers).resolve()
-            if result != NO_SOLUTION:
+
+            if (
+                result != NO_SOLUTION
+            ):  # if it's a no solution case then we don't care about this one
                 results_with_solution += 1
                 for customer in customers:
                     preferences = {}
                     for preference in customer.preferences:
                         preferences.update({preference.type: preference.base})
+                    # the intersection between the solution and the customer preferences should reveal
+                    # if any of the customer preferences are pleased within the retrieved solution
                     assert len(dict(result.items() & preferences.items())) > 0

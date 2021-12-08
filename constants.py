@@ -1,2 +1,0 @@
-VEGETARIAN = "V"
-MEAT = "M"

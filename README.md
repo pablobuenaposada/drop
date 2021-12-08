@@ -11,22 +11,23 @@ make docker/build
 ```
 
 ### Run the solver
-do:
+Do:
 ```bash
 make docker/run file=example.txt
 ```
-would output something like:
+Would output something like:
 ```bash
 docker run -e file=example.txt --rm -it -v /Users/pablobuenaposadasanchez/Desktop/drop/example.txt:/usr/src/app/example.txt curry
 PYTHONPATH=src venv/bin/python src/main.py --file=example.txt
 V M V M V
 ```
+You can alternatively point to another file but should be placed inside `drop/` folder due to sharing only the volume `/drop` in the docker container.
 
 ### Run tests
 ```bash
 make docker/test
 ```
-output:
+Outputs:
 ```bash
 pablo@MacBook-Pro drop % make docker/tests
 docker run curry /bin/sh -c 'make tests'
@@ -56,7 +57,7 @@ Then you can just do:
 ```bash
 make run file=example.txt
 ```
-output:
+Output:
 ```bash
 pablo@MacBook-Pro drop % make run file=example.txt
 python3 -m venv venv
@@ -74,7 +75,7 @@ V M V M V
 ```bash
 make test
 ```
-output:
+Output:
 ```bash
 PYTHONPATH=src venv/bin/pytest src/tests
 ================================================================================== test session starts ===================================================================================

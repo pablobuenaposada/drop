@@ -2,10 +2,8 @@ import argparse
 import re
 from pathlib import Path
 
-from constants import INVALID_FORMAT, NO_SOLUTION
+from constants import INVALID_FORMAT, NO_SOLUTION, SPLIT_REGEX
 from models import Curry, Customer, Proposals
-
-SPLIT_REGEX = r"(?<=.) (?=\d)"
 
 
 def main(file_path):

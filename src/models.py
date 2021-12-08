@@ -25,7 +25,7 @@ class Customer:
 @dataclass
 class Proposals:
     num_types: int
-    customers: List
+    customers: List[Customer]
 
     def __post_init__(self):
         # Sort customers on number of preferences they have from less to more.

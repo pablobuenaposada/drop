@@ -186,7 +186,7 @@ class TestProposals:
                 customers.append(Customer(list_of_curry))
 
             result = Proposals(NUM_TYPES, customers).resolve()
-            if isinstance(result, dict):
+            if result != NO_SOLUTION:
                 results_with_solution += 1
                 for customer in customers:
                     preferences = {}
